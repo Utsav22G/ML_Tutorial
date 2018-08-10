@@ -1,5 +1,3 @@
-# Data Preprocessing
-
 # Importing the libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,6 +21,7 @@ labelencoder_X = LabelEncoder()
 X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
 onehotencoder = OneHotEncoder(categorical_features = [0])
 X = onehotencoder.fit_transform(X).toarray()
+
 # Encoding the Dependent Variable
 labelencoder_y = LabelEncoder()
 y = labelencoder_y.fit_transform(y)
