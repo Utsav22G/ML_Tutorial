@@ -23,11 +23,12 @@ lin_reg_poly.fit(X_poly, y)
 # Visualising the models
 fig = plt.figure()
 fig.add_subplot(2,1,1)
-plt.scatter(X, y, color = 'red')
-plt.plot(X, lin_reg.predict(X), color = 'blue')
+plt.scatter(X, y, color = 'red', label = 'Data')
+plt.plot(X, lin_reg.predict(X), color = 'blue', label = 'Linear Regression')
 plt.title('Linear Regression')
 plt.xlabel('Position Level')
 plt.ylabel('Salary')
+plt.legend(loc = 'best')
 
 """ Incrementing the steps by 0.1 to increase the resolution
 and smoothen the curves."""
@@ -35,11 +36,12 @@ X_grid = np.arange(min(X), max(X), 0.1)
 X_grid = X_grid.reshape(len(X_grid), 1)
 
 fig.add_subplot(2,1,2)
-plt.scatter(X, y, color = 'red')
-plt.plot(X_grid, lin_reg_poly.predict(poly_reg.fit_transform(X_grid)), color = 'blue')
+plt.scatter(X, y, color = 'red',label = 'Data')
+plt.plot(X_grid, lin_reg_poly.predict(poly_reg.fit_transform(X_grid)), color = 'blue', label = 'Polynomial Regression')
 plt.title('Polynomial Regression')
 plt.xlabel('Position Level')
 plt.ylabel('Salary')
+plt.legend(loc = 'best')
 plt.show()
 
 # Using np.polyfit to create a polynomial model

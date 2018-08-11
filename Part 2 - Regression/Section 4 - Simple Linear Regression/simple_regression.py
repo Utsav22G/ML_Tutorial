@@ -30,17 +30,19 @@ print("RMSE = ", np.sqrt(mse))
 # Visualising the Training set results
 fig = plt.figure()
 fig.add_subplot(2,1,1)
-plt.scatter(X_train, y_train, color = 'red')    # training datapoints
-plt.plot(X_train, regressor.predict(X_train), color = 'blue')   # trained model
+plt.scatter(X_train, y_train, color = 'red', label = 'Training data')    # training datapoints
+plt.plot(X_train, regressor.predict(X_train), color = 'blue', label = 'Trained model')   # trained model
 plt.title('Salary vs Experience (Training set)')
 plt.xlabel('Years of Experience')
 plt.ylabel('Salary')
+plt.legend(loc = 'best')
 
 # Visualising the Test set results
 fig.add_subplot(2,1,2)
-plt.scatter(X_test, y_test, color = 'red')    # testing datapoints
-plt.plot(X_train, regressor.predict(X_train), color = 'blue')   # trained model
+plt.scatter(X_test, y_test, color = 'red', label = 'Testing data')    # testing datapoints
+plt.plot(X_train, regressor.predict(X_train), color = 'blue', label = 'Trained model')   # trained model
 plt.title('Salary vs Experience (Test set)')
 plt.xlabel('Years of Experience')
 plt.ylabel('Salary')
+plt.legend(loc = 'best')
 plt.show()

@@ -1,49 +1,48 @@
-# SVR
+from sklearn.svm import SVR
+from sklearn.preprocessing import StandardScaler
 
-# Importing the libraries
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Importing the dataset
 dataset = pd.read_csv('Position_Salaries.csv')
 X = dataset.iloc[:, 1:2].values
-y = dataset.iloc[:, 2].values
-
-# Splitting the dataset into the Training set and Test set
-"""from sklearn.cross_validation import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)"""
+y = dataset.iloc[:, 2:3].values
 
 # Feature Scaling
-from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 sc_y = StandardScaler()
 X = sc_X.fit_transform(X)
 y = sc_y.fit_transform(y)
 
-# Fitting SVR to the dataset
-from sklearn.svm import SVR
-regressor = SVR(kernel = 'rbf')
+# Fitting SVR to dataset
+regressor = SVR(kernel='rbf')
 regressor.fit(X, y)
 
-# Predicting a new result
-y_pred = regressor.predict(6.5)
-y_pred = sc_y.inverse_transform(y_pred)
+# Predicting new result
+"""
+Converting 6.5 to vector having 2 element --> np.array([6.5])
+Converting 6.5 to matrix-type array --> np.array([[6.5]])
+"""
+lvl = 6.5
+lvl_scaled = sc_X.transform(np.array([[lvl]]))
+y_pred_scaled = regressor.predict(lvl_scaled)     # scaled prediction of salary
+y_pred = sc_y.inverse_transform(y_pred_scaled)
+print("Salary at Level ", lvl, " is ", y_pred[0])
 
-# Visualising the SVR results
-plt.scatter(X, y, color = 'red')
-plt.plot(X, regressor.predict(X), color = 'blue')
-plt.title('Truth or Bluff (SVR)')
-plt.xlabel('Position level')
-plt.ylabel('Salary')
-plt.show()
+# Visualising SVR result
+"""
+Incrementing the steps by 0.1 to increase the resolution
+and smoothen the curves.
+"""
+X_grid = np.arange(min(X), max(X), 0.01)
+X_grid = X_grid.reshape(len(X_grid), 1)
 
-# Visualising the SVR results (for higher resolution and smoother curve)
-X_grid = np.arange(min(X), max(X), 0.01) # choice of 0.01 instead of 0.1 step because the data is feature scaled
-X_grid = X_grid.reshape((len(X_grid), 1))
-plt.scatter(X, y, color = 'red')
-plt.plot(X_grid, regressor.predict(X_grid), color = 'blue')
-plt.title('Truth or Bluff (SVR)')
-plt.xlabel('Position level')
+plt.scatter(X, y, color = 'red', label = 'Data')
+plt.plot(X_grid, regressor.predict(X_grid), color = 'blue', label = 'SVR model')
+plt.title('SVR Model')
+plt.xlabel('Position Level')
 plt.ylabel('Salary')
+plt.legend(loc ='upper center')
 plt.show()
